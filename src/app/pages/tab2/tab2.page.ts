@@ -1,4 +1,5 @@
-import { Component, OnInit} from '@angular/core';
+import { Component, OnInit, ViewChild} from '@angular/core';
+import { IonInfiniteScroll } from '@ionic/angular';
 import { NewsService } from '../../services/news.service';
 import { Article } from '../../interfaces';
 
@@ -10,6 +11,8 @@ import { Article } from '../../interfaces';
 })
 export class Tab2Page implements OnInit {
 
+  @ViewChild( IonInfiniteScroll, { static: true} ) infiniteScroll!: IonInfiniteScroll; //El curso no utiliza el ! en infiniteScroll pero sin el no corre la app, no encontre porque
+
   public categories: string[] = ['business', 'entertainment', 'general', 'health', 'science', 'sports', 'technology'];
   public selectedCategory: string = this.categories[0];
   public articles: Article[] = [];
@@ -18,6 +21,7 @@ export class Tab2Page implements OnInit {
   constructor( private newsService: NewsService) {}
 
   ngOnInit() {
+    console.log(this.infiniteScroll)
     this.newsService.getTopHeadlinesByCategory(this.selectedCategory)
     .subscribe( articles => {
       console.log(articles);
@@ -27,10 +31,6 @@ export class Tab2Page implements OnInit {
   }
 
   segmentChanged (event: Event) {
-
-
-
-
     this.selectedCategory = ( event as CustomEvent ).detail.value;
     this.newsService.getTopHeadlinesByCategory(this.selectedCategory)
     .subscribe( articles => {
@@ -38,19 +38,25 @@ export class Tab2Page implements OnInit {
     })
   }
 
-  loadData( event: any ) {
+  loadData() {
     this.newsService.getTopHeadlinesByCategory(this.selectedCategory, true)
     .subscribe( articles => {
 
       if ( articles.length === this.articles.length ) {
-        event.target.disabled = true;
+        this.infiniteScroll.disabled = true;
+        //event.target.disabled = true;
         return;
       }
 
-
       this.articles = articles;
-      event.target.complete();
+      this.infiniteScroll.complete();
+      //event.target.complete();
+
+
     })
+
+    console.log(this.infiniteScroll);
+
   }
 
 
