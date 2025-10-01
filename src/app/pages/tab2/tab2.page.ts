@@ -14,8 +14,9 @@ export class Tab2Page {
 
   constructor() {}
 
-  segmentChanged (category: any) {
-    console.log(category);
+  segmentChanged (event: any) {
+    this.selectedCategory = event.detail.value;
+    console.log(event.detail.value);
   }
 
 }
