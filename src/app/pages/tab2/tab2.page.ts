@@ -11,7 +11,7 @@ import { Article } from '../../interfaces';
 })
 export class Tab2Page implements OnInit {
 
-  @ViewChild( IonInfiniteScroll, { static: true} ) infiniteScroll: IonInfiniteScroll; //El curso no utiliza el ! en infiniteScroll pero sin el no corre la app, no encontre porque
+  @ViewChild( IonInfiniteScroll, { static: true} ) infiniteScroll: IonInfiniteScroll; 
 
   public categories: string[] = ['business', 'entertainment', 'general', 'health', 'science', 'sports', 'technology'];
   public selectedCategory: string = this.categories[0];
